@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employees</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand fw-bold" href="#">Logo</a>
+            <a class="navbar-brand" href="Dashboard.html"><i class="bi bi-house-fill"></i> Home</a>
+            <a class="navbar-brand" href="Employees.html"><i class="bi bi-list"></i> Employees</a>
+            <div class="d-flex ms-auto">
+                <a class="navbar-brand" href="#">Username</a>
+                <a class="navbar-brand" href="Login.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+    <section>
+        <div class="row m-3 justify-content-end align-items-center">
+            <div class="col-auto">
+                <h5 id="total-count">Total Count: 0</h5>
+            </div>
+            <div class="col-auto">
+                <button class="btn btn-primary fw-bold" id="create">Create Employee</button>
+            </div>
+        </div>
+        <div class="row m-3 justify-content-end">
+            <div class="col-auto form-group">
+                <input type="text" class="form-control" placeholder="Search Here" id="searchInput">
+            </div>
+            <div class="col-auto form-group">
+                <button class="btn btn-success fw-bold" id="search-btn">Search</button>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Mobile</th>
+                            <th>Email</th>
+                            <th>Designation</th>
+                            <th>Gender</th>
+                            <th>Course</th>
+                            <th>Create Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script Code -->
+
+    <script>
+        const totalCount=document.getElementById('total-count')
+        const create = document.getElementById('create')
+        const searchBtn = document.getElementById('search-btn')
+        const tableBody = document.getElementById('table-body');
+
+        let employees = [
+            { id: 1, name: "Hukum", mobile: "954010044", email: "hcgupta@cstech.in", department: "HR", gender: "Male", course: "MCA", createDate: "13-Feb-21" },
+            { id: 2, name: "Manish", mobile: "954010033", email: "manish@cstech.in", department: "Sales", gender: "Male", course: "BCA", createDate: "12-Feb-21" },
+            { id: 3, name: "Yash", mobile: "954010022", email: "yash@cstech.in", department: "Manager", gender: "Male", course: "BSC", createDate: "11-Feb-21" },
+            { id: 4, name: "Abhishek", mobile: "954010033", email: "abhishek@cstech.in", department: "HR", gender: "Male", course: "MCA", createDate: "13-Feb-21" }
+        ];
+
+        function displayEmployees(arr) {
+            let tableDisplay = "";
+            arr.forEach((ele) => {
+                tableDisplay += `<tr>
+                                    <td>${ele.id}</td>
+                                    <td>${ele.name}</td>
+                                    <td>${ele.mobile}</td>
+                                    <td>${ele.email}</td>
+                                    <td>${ele.department}</td>
+                                    <td>${ele.gender}</td>
+                                    <td>${ele.course}</td>
+                                    <td>${ele.createDate}</td>
+                                    <td>
+                                        <button class="btn btn-primary btn-sm mx-1" onclick="editEmployee(${ele.id})">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
+                                        <button class="btn btn-danger btn-sm mx-1" onclick="deleteEmployee(${ele.id})">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
+                                    </td>
+                                </tr>`;
+            });
+            tableBody.innerHTML = tableDisplay;
+            Count();
+        };
+
+        function Count() {
+            totalCount.textContent = `Total Count: ${employees.length}`;
+        }
+
+        function deleteEmployee(id) {
+            employees = employees.filter(emp => emp.id !== id);
+            displayEmployees(employees);
+        }
+
+        function searchEmployee() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredEmployees = employees.filter(emp =>
+                emp.name.toLowerCase().includes(searchTerm) ||
+                emp.mobile.includes(searchTerm) ||
+                emp.email.toLowerCase().includes(searchTerm) ||
+                emp.department.toLowerCase().includes(searchTerm)
+            );
+            displayEmployees(filteredEmployees);
+        }
+        searchBtn.addEventListener('click', searchEmployee);
+        displayEmployees(employees);
+
+    </script>
+</body>
+
+</html>
